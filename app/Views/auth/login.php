@@ -28,6 +28,7 @@
     #watermark-container img {
         position: absolute;
         opacity: 0.12;
+        width: 120px;
         object-fit: contain;
     }
 
@@ -162,15 +163,20 @@
 
     <!-- Background Watermarks -->
     <div id="watermark-container">
-        <!-- Sisi Kiri -->
-        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" style="top: -5%; left: -5%; width: 500px; transform: rotate(-15deg);">
-        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" style="top: 40%; left: -10%; width: 450px; transform: rotate(10deg);">
-        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" style="bottom: -15%; left: 10%; width: 350px; transform: rotate(20deg);">
-
-        <!-- Sisi Kanan -->
-        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" style="top: -10%; right: -5%; width: 450px; transform: rotate(15deg);">
-        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" style="top: 45%; right: 5%; width: 350px; transform: rotate(-10deg);">
-        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" style="bottom: -10%; right: -5%; width: 400px; transform: rotate(-20deg);">
+        <!-- Baris 1 (Atas) -->
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 10%; left: 10%; transform: rotate(-20deg);">
+        <img src="<?= base_url('assets/img/logo-siposka-transparent.png') ?>" style="top: 5%; left: 45%; transform: rotate(15deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 10%; right: 10%; transform: rotate(-10deg);">
+        
+        <!-- Baris 2 (Tengah) -->
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 45%; left: 5%; transform: rotate(10deg);">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 50%; left: 45%; transform: rotate(-5deg);">
+        <img src="<?= base_url('assets/img/logo-siposka-transparent.png') ?>" style="top: 45%; right: 5%; transform: rotate(-15deg);">
+        
+        <!-- Baris 3 (Bawah) -->
+        <img src="<?= base_url('assets/img/logo-siposka-transparent.png') ?>" style="bottom: 10%; left: 10%; transform: rotate(-15deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="bottom: 5%; left: 45%; transform: rotate(10deg);">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="bottom: 10%; right: 10%; transform: rotate(-20deg);">
     </div>
 
     <!-- Login Card -->
