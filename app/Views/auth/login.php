@@ -379,52 +379,56 @@
             margin-left: auto;
         }
     }
-
-    /* ===== DEKORASI BACKGROUND ===== */
-    .auth-watermarks-grid {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.15;
-    }
-
-    .auth-watermarks-grid img {
-        position: absolute;
-        width: 140px;
-        height: 140px;
-        object-fit: contain;
-    }
 </style>
 
 <main class="auth-main-container">
-    <!-- Dekorasi Background Simetris -->
+    <!-- Dekorasi Background Scattered (9 Logos Besar) -->
     <div class="auth-watermarks-grid">
-        <!-- Sisi Kiri -->
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="top: 10%; left: 10%; transform: rotate(-15deg);">
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="top: 50%; left: 5%; transform: translateY(-50%) rotate(10deg);">
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="bottom: 10%; left: 10%; transform: rotate(-20deg);">
+        <!-- Posyandu -->
+        <!-- Kiri Atas -->
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
+            style="top: -15%; left: -10%; transform: rotate(-25deg); width: 45vw; max-width: 700px;">
+        <!-- Kanan Tengah -->
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
+            style="top: 30%; right: -15%; transform: rotate(15deg); width: 40vw; max-width: 600px;">
+        <!-- Bawah Tengah (tersembunyi sedikit) -->
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
+            style="bottom: 10%; left: 35%; transform: rotate(-10deg); width: 30vw; max-width: 400px;">
 
-        <!-- Sisi Kanan -->
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="top: 10%; right: 10%; transform: rotate(15deg);">
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="top: 50%; right: 5%; transform: translateY(-50%) rotate(-10deg);">
-        <img src="<?= base_url('assets/img/login-decoration.png') ?>" alt="Dekorasi" style="bottom: 10%; right: 10%; transform: rotate(20deg);">
+        <!-- Ngawi -->
+        <!-- Kiri Tengah -->
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
+            style="top: 35%; left: -12%; transform: rotate(15deg); width: 35vw; max-width: 500px;">
+        <!-- Kanan Bawah -->
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
+            style="bottom: -15%; right: -10%; transform: rotate(-20deg); width: 45vw; max-width: 650px;">
+        <!-- Bawah Kiri-Tengah -->
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
+            style="bottom: -5%; left: 20%; transform: rotate(25deg); width: 25vw; max-width: 350px;">
+
+        <!-- KKN 38 -->
+        <!-- Kanan Atas -->
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
+            style="top: -15%; right: -10%; transform: rotate(-15deg); width: 45vw; max-width: 700px;">
+        <!-- Kiri Bawah -->
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
+            style="bottom: -20%; left: -15%; transform: rotate(15deg); width: 50vw; max-width: 750px;">
+        <!-- Atas Tengah (tersembunyi sedikit) -->
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
+            style="top: 15%; left: 30%; transform: rotate(20deg); width: 30vw; max-width: 400px;">
     </div>
 
     <!-- Login Card -->
     <div class="auth-card">
         <div class="auth-card-body">
 
-            <!-- Logo Aplikasi -->
-            <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 30px;">
+            <!-- Logo Aplikasi (Hanya Ngawi) -->
+            <div style="text-align: center; margin-bottom: 15px;">
                 <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Logo Ngawi" style="height: 85px; width: auto; object-fit: contain;">
-                <div style="height: 70px; width: 1px; background: #e2e8f0;"></div>
-                <img src="<?= base_url('assets/img/logo-siposka-transparent.png') ?>" alt="Logo SIPOSKA" style="height: 85px; width: auto; object-fit: contain;">
             </div>
+
+            <!-- Judul -->
+            <h2 class="auth-card-title">Masuk ke Sistem</h2>
 
             <div class="auth-divider"></div>
 
@@ -468,7 +472,14 @@
                     </div>
                 </div>
 
-
+                <!-- Options -->
+                <div class="auth-options">
+                    <label class="auth-remember">
+                        <input type="checkbox" name="remember">
+                        <span>Ingat saya</span>
+                    </label>
+                    <a href="<?= site_url('forgot-password') ?>" class="auth-forgot">Lupa Password?</a>
+                </div>
 
                 <!-- Tombol Submit -->
                 <button type="submit" class="auth-btn-submit">
@@ -479,6 +490,7 @@
             <!-- Footer -->
             <div class="auth-card-footer">
                 <p>&copy; <?= date('Y') ?> SIPOSKA — Sistem Informasi Posyandu Kandangan</p>
+                <a href="<?= site_url('/') ?>"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
             </div>
         </div>
     </div>
