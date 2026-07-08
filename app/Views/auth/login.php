@@ -2,504 +2,252 @@
 
 <?= $this->section('content') ?>
 <style>
-    /* ===== BACKGROUND ===== */
-    .auth-main-container {
-        background: linear-gradient(135deg, #0f2d69 0%, #1a56db 50%, #0f2d69 100%);
+    /* Full-page background */
+    .login-wrapper {
         min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #1a3ab8 0%, #0d1f7c 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
         position: relative;
-        overflow: hidden;
     }
 
-    /* ===== DEKORASI (9 Logos Scattered) ===== */
-    .auth-watermarks-grid {
-        position: absolute;
+    /* Watermark Container */
+    #watermark-container {
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 0;
         overflow: hidden;
         pointer-events: none;
-        z-index: 0;
-        opacity: 0.08;
-        /* Lebih transparan agar tidak mengganggu tapi besar */
-        mix-blend-mode: multiply;
-        /* Menghilangkan background putih pada JPG */
     }
 
-    .auth-watermarks-grid img {
+    #watermark-container img {
         position: absolute;
+        opacity: 0.10;
+        width: 120px;
         object-fit: contain;
     }
 
-
-    /* ===== KARTU LOGIN ===== */
-    .auth-card {
-        background: #ffffff;
-        width: 100%;
-        max-width: 440px;
-        border-radius: 20px;
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.05);
-        position: relative;
+    /* Card styling */
+    .login-card {
+        background-color: #ffffff;
+        width: 90%;
+        max-width: 420px;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        padding: 40px;
         z-index: 10;
-        animation: fadeInUp 0.5s ease-out;
+        position: relative;
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Logo section */
+    .logos-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
     }
-
-    .auth-card-body {
-        padding: 44px;
-    }
-
-    /* Logo */
-    .auth-card-logo {
-        display: block;
-        width: 220px !important;
-        height: auto !important;
-        margin: 0 auto 30px !important;
+    .logos-container img {
+        width: 70px;
+        height: 70px;
         object-fit: contain;
     }
 
-    /* Judul */
-    .auth-card-title {
+    /* Titles */
+    .login-title-main {
         text-align: center;
-        font-size: 22px;
         font-weight: 700;
-        color: #1e293b;
+        font-size: 22px;
+        color: #1a3ab8;
         margin-bottom: 4px;
     }
-
-    .auth-card-subtitle {
+    .login-title-sub {
         text-align: center;
-        font-size: 13px;
-        color: #94a3b8;
-        margin-bottom: 24px;
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 20px;
     }
 
     /* Divider */
-    .auth-divider {
+    .login-divider {
+        border: 0;
         height: 1px;
-        width: 100%;
-        background: linear-gradient(to right, transparent, #e2e8f0, transparent);
-        margin: 0 auto 28px;
+        background: #e5e7eb;
+        margin-bottom: 24px;
     }
 
-    /* Form Groups */
-    .auth-form-group {
+    /* Form Fields */
+    .login-form-group {
         margin-bottom: 20px;
     }
-
-    .auth-form-label {
+    .login-label {
         display: block;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        color: #334155;
-        margin-bottom: 7px;
+        color: #374151;
+        margin-bottom: 8px;
     }
-
-    .auth-input-wrapper {
-        position: relative;
+    .login-input-wrapper {
+        display: flex;
+        align-items: center;
+        background: #f3f4f6;
+        border-radius: 0.5rem;
     }
-
-    .auth-input-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
-        transition: color 0.25s;
+    .login-input-icon {
+        padding: 0 16px;
+        color: #6b7280;
     }
-
-    .auth-input-wrapper:focus-within .auth-input-icon {
-        color: #1a56db;
-    }
-
-    .auth-form-control {
-        width: 100%;
-        padding: 12px 16px 12px 42px;
-        background: #f8fafc;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 10px;
-        font-size: 13.5px;
-        color: #1e293b;
-        font-family: inherit;
-        transition: all 0.25s ease;
-        box-sizing: border-box;
-    }
-
-    .auth-form-control:focus {
-        outline: none;
-        border-color: #1a56db;
-        background: #ffffff;
-        box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.12);
-    }
-
-    .auth-form-control::placeholder {
-        color: #cbd5e1;
-    }
-
-    /* Toggle password */
-    .auth-toggle-pw {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
+    .login-input {
+        flex: 1;
+        background: transparent;
         border: none;
-        color: #94a3b8;
-        cursor: pointer;
+        padding: 14px 14px 14px 0;
         font-size: 14px;
-        padding: 6px;
+        color: #1f2937;
         outline: none;
-        transition: color 0.2s;
-    }
-
-    .auth-toggle-pw:hover {
-        color: #1a56db;
-    }
-
-    /* Options row */
-    .auth-options {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 24px;
-        font-size: 13px;
-    }
-
-    .auth-remember {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        color: #64748b;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    .auth-remember input[type="checkbox"] {
-        cursor: pointer;
-        width: 15px;
-        height: 15px;
-        accent-color: #1a56db;
-    }
-
-    .auth-forgot {
-        color: #1a56db;
-        font-weight: 500;
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-
-    .auth-forgot:hover {
-        color: #1344b0;
-        text-decoration: underline;
-    }
-
-    /* Submit */
-    .auth-btn-submit {
         width: 100%;
-        background: linear-gradient(135deg, #1a56db 0%, #1344b0 100%);
+    }
+    .login-toggle-pw {
+        background: transparent;
+        border: none;
+        padding: 0 16px;
+        color: #6b7280;
+        cursor: pointer;
+        outline: none;
+    }
+
+    /* Button */
+    .login-btn {
+        width: 100%;
+        background: #1a3ab8;
         color: #ffffff;
         border: none;
-        padding: 13px;
-        border-radius: 10px;
-        font-size: 14.5px;
+        border-radius: 0.5rem;
+        padding: 14px;
+        font-size: 15px;
         font-weight: 600;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 9px;
-        transition: all 0.25s ease;
-        font-family: inherit;
-        box-shadow: 0 4px 14px rgba(26, 86, 219, 0.30);
+        transition: background-color 0.2s;
+        margin-top: 10px;
+        margin-bottom: 24px;
     }
-
-    .auth-btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(26, 86, 219, 0.40);
-    }
-
-    .auth-btn-submit:active {
-        transform: translateY(0);
-        box-shadow: 0 4px 10px rgba(26, 86, 219, 0.25);
+    .login-btn:hover {
+        background: #142d96;
     }
 
     /* Footer */
-    .auth-card-footer {
+    .login-footer {
         text-align: center;
-        padding-top: 22px;
-        border-top: 1px solid #f1f5fb;
-        margin-top: 22px;
-    }
-
-    .auth-card-footer p {
         font-size: 11px;
-        color: #94a3b8;
-        margin-bottom: 10px;
+        color: #6b7280;
     }
-
-    .auth-card-footer a {
-        font-size: 13px;
-        color: #1a56db;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        transition: opacity 0.2s;
-    }
-
-    .auth-card-footer a:hover {
-        opacity: 0.75;
-    }
-
+    
     /* Alerts */
-    .auth-alert {
-        padding: 11px 14px;
-        border-radius: 8px;
-        font-size: 13px;
+    .login-alert {
+        padding: 12px;
+        border-radius: 6px;
         margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 9px;
+        font-size: 13px;
+        text-align: center;
     }
-
-    .auth-alert.error {
-        background: rgba(220, 38, 38, 0.08);
-        border-left: 4px solid #dc2626;
-        color: #dc2626;
-    }
-
-    .auth-alert.success {
-        background: rgba(22, 163, 74, 0.08);
-        border-left: 4px solid #16a34a;
-        color: #16a34a;
-    }
-
-    /* ===== TABLET ===== */
-    @media (max-width: 1024px) {
-
-        .wm-ml,
-        .wm-mr,
-        .wm-tml,
-        .wm-bmr,
-        .wm-tcr {
-            display: none;
-        }
-
-        .dots-left,
-        .dots-right {
-            display: none;
-        }
-    }
-
-    @media (max-width: 768px) {
-
-        .wm-rt,
-        .wm-lb,
-        .geo-tr,
-        .geo-bl {
-            display: none;
-        }
-
-        .wm-lt {
-            width: 220px;
-            height: 220px;
-        }
-
-        .wm-rb {
-            width: 220px;
-            height: 220px;
-        }
-
-        .auth-card-body {
-            padding: 36px 28px;
-        }
-    }
-
-    /* ===== MOBILE ≤480px ===== */
-    @media (max-width: 480px) {
-        .auth-main-container {
-            background: #ffffff;
-            padding: 0;
-            align-items: flex-start;
-        }
-
-        /* Sembunyikan semua dekorasi */
-        .auth-watermark,
-        .auth-geo,
-        .dots-left,
-        .dots-right {
-            display: none !important;
-        }
-
-        /* Hilangkan card shell */
-        .auth-card {
-            box-shadow: none;
-            border-radius: 0;
-            max-width: none;
-            width: 100%;
-        }
-
-        .auth-card-body {
-            padding: 40px 24px 24px;
-        }
-
-        .auth-card-logo {
-            width: 180px !important;
-            height: auto !important;
-        }
-
-        .auth-card-title {
-            font-size: 20px;
-        }
-
-        .auth-options {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .auth-forgot {
-            margin-left: auto;
-        }
-    }
-
-    /* ===== BACKGROUND DECORATION ===== */
-    .login-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.12; /* Sesuai instruksi: 8-15% samar */
-    }
-
-    .bg-decoration {
-        position: absolute;
-        object-fit: contain;
-    }
-
-    /* Sisi Kiri */
-    .bg-top-left { top: -10%; left: -5%; width: 450px; transform: rotate(-15deg); }
-    .bg-mid-left { bottom: 15%; left: 5%; width: 300px; transform: rotate(10deg); }
-    .bg-bot-left { bottom: 5%; left: 15%; width: 280px; transform: rotate(20deg); }
-
-    /* Sisi Kanan */
-    .bg-top-right { top: 5%; right: 5%; width: 320px; transform: rotate(15deg); }
-    .bg-mid-right { bottom: 35%; right: 8%; width: 250px; transform: rotate(-10deg); }
-    .bg-bot-right { bottom: 5%; right: 10%; width: 300px; transform: rotate(-20deg); }
+    .login-alert.error { background: #fee2e2; color: #b91c1c; }
+    .login-alert.success { background: #d1fae5; color: #047857; }
 </style>
 
-<main class="auth-main-container">
-    <!-- Dekorasi Background Terpisah (Hanya Background) -->
-    <div class="login-background">
-        <!-- Kiri -->
-        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" alt="Bg SIPOSKA" class="bg-decoration bg-top-left">
-        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" alt="Bg KKN" class="bg-decoration bg-mid-left">
-        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" alt="Bg Ngawi" class="bg-decoration bg-bot-left">
+<div class="login-wrapper">
 
-        <!-- Kanan -->
-        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" alt="Bg KKN" class="bg-decoration bg-top-right">
-        <img src="<?= base_url('assets/img/p-kkn.png') ?>" alt="KKN" class="bg-decoration bg-mid-right">
-        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" alt="Bg Ngawi" class="bg-decoration bg-bot-right">
+    <!-- Background Watermarks -->
+    <div id="watermark-container">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 5%; left: 3%; transform: rotate(-20deg);">
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 5%; left: 25%; transform: rotate(15deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 5%; left: 50%; transform: rotate(-10deg);">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 5%; left: 75%; transform: rotate(25deg);">
+        
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 30%; left: 10%; transform: rotate(10deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 30%; left: 40%; transform: rotate(-15deg);">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 30%; left: 70%; transform: rotate(20deg);">
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 30%; left: 85%; transform: rotate(-5deg);">
+        
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 60%; left: 5%; transform: rotate(-25deg);">
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 60%; left: 30%; transform: rotate(15deg);">
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 60%; left: 60%; transform: rotate(-10deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 60%; left: 85%; transform: rotate(12deg);">
+        
+        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 80%; left: 15%; transform: rotate(20deg);">
+        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 85%; left: 50%; transform: rotate(-5deg);">
+        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 80%; left: 80%; transform: rotate(-20deg);">
     </div>
 
     <!-- Login Card -->
-    <div class="auth-card">
-        <div class="auth-card-body">
+    <div class="login-card">
+        
+        <!-- Logo Section -->
+        <div class="logos-container">
+            <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Desa Kandangan">
+            <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu">
+            <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN 38">
+        </div>
+        
+        <!-- Titles -->
+        <div class="login-title-main">SIPOSKA</div>
+        <div class="login-title-sub">Sistem Informasi Posyandu Kandangan</div>
 
-            <!-- Logo Aplikasi (Hanya Ngawi) -->
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Logo Ngawi" style="height: 85px; width: auto; object-fit: contain;">
+        <!-- Divider -->
+        <hr class="login-divider">
+
+        <?php if (session()->has('error')): ?>
+            <div class="login-alert error">
+                <i class="fas fa-exclamation-circle"></i> <?= esc(session('error')) ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->has('success')): ?>
+            <div class="login-alert success">
+                <i class="fas fa-check-circle"></i> <?= esc(session('success')) ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Form -->
+        <form action="<?= site_url('login') ?>" method="POST">
+            <?= csrf_field() ?>
+            
+            <!-- Username -->
+            <div class="login-form-group">
+                <label class="login-label" for="username">Username</label>
+                <div class="login-input-wrapper">
+                    <div class="login-input-icon"><i class="fas fa-user"></i></div>
+                    <input type="text" id="username" name="username" class="login-input" placeholder="Masukkan username" required autocomplete="username">
+                </div>
             </div>
 
-            <!-- Judul -->
-            <h2 class="auth-card-title">Masuk ke Sistem</h2>
-
-            <div class="auth-divider"></div>
-
-            <?php if (session()->has('error')): ?>
-                <div class="auth-alert error">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <?= esc(session('error')) ?>
+            <!-- Password -->
+            <div class="login-form-group">
+                <label class="login-label" for="password">Password</label>
+                <div class="login-input-wrapper">
+                    <div class="login-input-icon"><i class="fas fa-lock"></i></div>
+                    <input type="password" id="password" name="password" class="login-input" placeholder="Masukkan password" required autocomplete="current-password">
+                    <button type="button" class="login-toggle-pw" onclick="togglePassword()" id="btnToggle" title="Tampilkan/Sembunyikan password">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
-            <?php endif; ?>
-            <?php if (session()->has('success')): ?>
-                <div class="auth-alert success">
-                    <i class="fas fa-check-circle"></i>
-                    <?= esc(session('success')) ?>
-                </div>
-            <?php endif; ?>
-
-            <form action="<?= site_url('login') ?>" method="POST">
-                <?= csrf_field() ?>
-
-                <!-- Username -->
-                <div class="auth-form-group">
-                    <label for="username" class="auth-form-label">Username</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon"><i class="fas fa-user"></i></span>
-                        <input type="text" id="username" name="username" class="auth-form-control" required
-                            autocomplete="username" placeholder="Masukkan username">
-                    </div>
-                </div>
-
-                <!-- Password -->
-                <div class="auth-form-group">
-                    <label for="password" class="auth-form-label">Password</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon"><i class="fas fa-lock"></i></span>
-                        <input type="password" id="password" name="password" class="auth-form-control" required
-                            autocomplete="current-password" placeholder="Masukkan password">
-                        <button type="button" class="auth-toggle-pw" onclick="togglePassword()" id="btnToggle"
-                            title="Tampilkan/Sembunyikan password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Options -->
-                <div class="auth-options">
-                    <label class="auth-remember">
-                        <input type="checkbox" name="remember">
-                        <span>Ingat saya</span>
-                    </label>
-                    <a href="<?= site_url('forgot-password') ?>" class="auth-forgot">Lupa Password?</a>
-                </div>
-
-                <!-- Tombol Submit -->
-                <button type="submit" class="auth-btn-submit">
-                    <i class="fas fa-sign-in-alt"></i> Masuk ke Sistem
-                </button>
-            </form>
-
-            <!-- Footer -->
-            <div class="auth-card-footer">
-                <p>&copy; <?= date('Y') ?> SIPOSKA — Sistem Informasi Posyandu Kandangan</p>
-                <a href="<?= site_url('/') ?>"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
             </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-btn">
+                &rarr; Masuk ke Sistem
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            &copy; 2026 SIPOSKA &mdash; Sistem Informasi Posyandu Kandangan
         </div>
     </div>
-</main>
+</div>
 
 <script>
     function togglePassword() {
