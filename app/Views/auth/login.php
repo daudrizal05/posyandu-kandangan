@@ -27,8 +27,7 @@
 
     #watermark-container img {
         position: absolute;
-        opacity: 0.10;
-        width: 120px;
+        opacity: 0.12;
         object-fit: contain;
     }
 
@@ -163,24 +162,15 @@
 
     <!-- Background Watermarks -->
     <div id="watermark-container">
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 5%; left: 3%; transform: rotate(-20deg);">
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 5%; left: 25%; transform: rotate(15deg);">
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 5%; left: 50%; transform: rotate(-10deg);">
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 5%; left: 75%; transform: rotate(25deg);">
-        
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 30%; left: 10%; transform: rotate(10deg);">
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 30%; left: 40%; transform: rotate(-15deg);">
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 30%; left: 70%; transform: rotate(20deg);">
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 30%; left: 85%; transform: rotate(-5deg);">
-        
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 60%; left: 5%; transform: rotate(-25deg);">
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 60%; left: 30%; transform: rotate(15deg);">
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 60%; left: 60%; transform: rotate(-10deg);">
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 60%; left: 85%; transform: rotate(12deg);">
-        
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" style="top: 80%; left: 15%; transform: rotate(20deg);">
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" style="top: 85%; left: 50%; transform: rotate(-5deg);">
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" style="top: 80%; left: 80%; transform: rotate(-20deg);">
+        <!-- Sisi Kiri -->
+        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" style="top: -5%; left: -5%; width: 500px; transform: rotate(-15deg);">
+        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" style="top: 40%; left: -10%; width: 450px; transform: rotate(10deg);">
+        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" style="bottom: -15%; left: 10%; width: 350px; transform: rotate(20deg);">
+
+        <!-- Sisi Kanan -->
+        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" style="top: -10%; right: -5%; width: 450px; transform: rotate(15deg);">
+        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" style="top: 45%; right: 5%; width: 350px; transform: rotate(-10deg);">
+        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" style="bottom: -10%; right: -5%; width: 400px; transform: rotate(-20deg);">
     </div>
 
     <!-- Login Card -->
@@ -188,16 +178,10 @@
         
         <!-- Logo Section -->
         <div class="logos-container">
-            <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Desa Kandangan">
-            <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu">
-            <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN 38">
+            <img src="<?= base_url('assets/img/logo-siposka-transparent.png') ?>" alt="SIPOSKA" style="width: 150px; height: auto;">
         </div>
         
-        <!-- Titles -->
-        <div class="login-title-main">SIPOSKA</div>
-        <div class="login-title-sub">Sistem Informasi Posyandu Kandangan</div>
-
-        <!-- Divider -->
+        <!-- Titles (Removed because text is in the logo itself) -->
         <hr class="login-divider">
 
         <?php if (session()->has('error')): ?>
