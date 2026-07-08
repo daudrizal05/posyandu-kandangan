@@ -379,43 +379,48 @@
             margin-left: auto;
         }
     }
+
+    /* ===== BACKGROUND DECORATION ===== */
+    .login-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.12; /* Sesuai instruksi: 8-15% samar */
+    }
+
+    .bg-decoration {
+        position: absolute;
+        object-fit: contain;
+    }
+
+    /* Sisi Kiri */
+    .bg-top-left { top: -10%; left: -5%; width: 450px; transform: rotate(-15deg); }
+    .bg-mid-left { bottom: 15%; left: 5%; width: 300px; transform: rotate(10deg); }
+    .bg-bot-left { bottom: 5%; left: 15%; width: 280px; transform: rotate(20deg); }
+
+    /* Sisi Kanan */
+    .bg-top-right { top: 5%; right: 5%; width: 320px; transform: rotate(15deg); }
+    .bg-mid-right { bottom: 35%; right: 8%; width: 250px; transform: rotate(-10deg); }
+    .bg-bot-right { bottom: 5%; right: 10%; width: 300px; transform: rotate(-20deg); }
 </style>
 
 <main class="auth-main-container">
-    <!-- Dekorasi Background Scattered (9 Logos Besar) -->
-    <div class="auth-watermarks-grid">
-        <!-- Posyandu -->
-        <!-- Kiri Atas -->
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
-            style="top: -15%; left: -10%; transform: rotate(-25deg); width: 45vw; max-width: 700px;">
-        <!-- Kanan Tengah -->
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
-            style="top: 30%; right: -15%; transform: rotate(15deg); width: 40vw; max-width: 600px;">
-        <!-- Bawah Tengah (tersembunyi sedikit) -->
-        <img src="<?= base_url('assets/img/logo-posyandu-transparent.png') ?>" alt="Posyandu"
-            style="bottom: 10%; left: 35%; transform: rotate(-10deg); width: 30vw; max-width: 400px;">
+    <!-- Dekorasi Background Terpisah (Hanya Background) -->
+    <div class="login-background">
+        <!-- Kiri -->
+        <img src="<?= base_url('assets/img/bg-siposka.png') ?>" alt="Bg SIPOSKA" class="bg-decoration bg-top-left">
+        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" alt="Bg KKN" class="bg-decoration bg-mid-left">
+        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" alt="Bg Ngawi" class="bg-decoration bg-bot-left">
 
-        <!-- Ngawi -->
-        <!-- Kiri Tengah -->
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
-            style="top: 35%; left: -12%; transform: rotate(15deg); width: 35vw; max-width: 500px;">
-        <!-- Kanan Bawah -->
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
-            style="bottom: -15%; right: -10%; transform: rotate(-20deg); width: 45vw; max-width: 650px;">
-        <!-- Bawah Kiri-Tengah -->
-        <img src="<?= base_url('assets/img/logo-ngawi-transparent.png') ?>" alt="Ngawi"
-            style="bottom: -5%; left: 20%; transform: rotate(25deg); width: 25vw; max-width: 350px;">
-
-        <!-- KKN 38 -->
-        <!-- Kanan Atas -->
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
-            style="top: -15%; right: -10%; transform: rotate(-15deg); width: 45vw; max-width: 700px;">
-        <!-- Kiri Bawah -->
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
-            style="bottom: -20%; left: -15%; transform: rotate(15deg); width: 50vw; max-width: 750px;">
-        <!-- Atas Tengah (tersembunyi sedikit) -->
-        <img src="<?= base_url('assets/img/logo-kkn-transparent.jpg') ?>" alt="KKN"
-            style="top: 15%; left: 30%; transform: rotate(20deg); width: 30vw; max-width: 400px;">
+        <!-- Kanan -->
+        <img src="<?= base_url('assets/img/bg-kkn.png') ?>" alt="Bg KKN" class="bg-decoration bg-top-right">
+        <img src="<?= base_url('assets/img/p-kkn.png') ?>" alt="KKN" class="bg-decoration bg-mid-right">
+        <img src="<?= base_url('assets/img/bg-ngawi.png') ?>" alt="Bg Ngawi" class="bg-decoration bg-bot-right">
     </div>
 
     <!-- Login Card -->
