@@ -7,6 +7,11 @@ use App\Models\PosyanduModel;
 use App\Models\BalitaModel;
 use App\Models\PengukuranModel;
 use App\Models\BeritaModel;
+use App\Models\IbuHamilModel;
+use App\Models\RemajaModel;
+use App\Models\UsiaProduktifModel;
+use App\Models\LansiaModel;
+use App\Models\UserModel;
 
 class Dashboard extends BaseController
 {
@@ -16,12 +21,32 @@ class Dashboard extends BaseController
         $balitaModel = new BalitaModel();
         $pengukuranModel = new PengukuranModel();
         $beritaModel = new BeritaModel();
+        $ibuHamilModel = new IbuHamilModel();
+        $remajaModel = new RemajaModel();
+        $usiaProduktifModel = new UsiaProduktifModel();
+        $lansiaModel = new LansiaModel();
+        $userModel = new UserModel();
 
         // 1. Total Posyandu aktif
         $totalPosyandu = $posyanduModel->where('status', 'aktif')->countAllResults();
 
         // 2. Total Data Balita
         $totalBalita = $balitaModel->countAllResults();
+
+        // 3. Total Ibu Hamil
+        $totalIbuHamil = $ibuHamilModel->countAllResults();
+
+        // 4. Total Remaja
+        $totalRemaja = $remajaModel->countAllResults();
+
+        // 5. Total Usia Produktif
+        $totalUsiaProduktif = $usiaProduktifModel->countAllResults();
+
+        // 6. Total Lansia
+        $totalLansia = $lansiaModel->countAllResults();
+
+        // 7. Total User
+        $totalUser = $userModel->countAllResults();
 
         $totalPengukuranBulanIni = 0;
         $chartGiziLabels = ['Normal', 'Kurang', 'Stunting', 'Gizi Buruk'];
@@ -33,9 +58,8 @@ class Dashboard extends BaseController
 
         $db = \Config\Database::connect();
         
-        // 3. Total Pengukuran bulan ini & Status Gizi & Trend
+        // Total Pengukuran bulan ini & Status Gizi & Trend
         if ($db->tableExists('pengukuran') && $db->fieldExists('tanggal_pengukuran', 'pengukuran')) {
-            // 3. Total Pengukuran bulan ini
             $currentMonth = date('m');
             $currentYear = date('Y');
             
@@ -45,7 +69,7 @@ class Dashboard extends BaseController
                 $totalPengukuranBulanIni = $resultPengukuran->total;
             }
 
-            // 4. Jumlah Balita dengan status gizi: normal / kurang / stunting / gizi_buruk
+            // Jumlah Balita dengan status gizi
             $queryStatusGizi = "
                 SELECT p.status_gizi, COUNT(p.id) as total
                 FROM pengukuran p
@@ -65,8 +89,7 @@ class Dashboard extends BaseController
                 if ($row['status_gizi'] == 'gizi_buruk') $chartGiziData[3] = $row['total'];
             }
 
-            // 7. Grafik tren pengukuran gizi per bulan (line chart, 6 bulan terakhir)
-            // Generate last 6 months labels
+            // Grafik tren pengukuran per bulan (6 bulan terakhir)
             for ($i = 5; $i >= 0; $i--) {
                 $month = date('m', strtotime("-$i months"));
                 $year = date('Y', strtotime("-$i months"));
@@ -80,21 +103,25 @@ class Dashboard extends BaseController
         }
 
         if ($db->tableExists('berita')) {
-            // 5. Total Berita published
             $totalBerita = $beritaModel->where('status', 'published')->countAllResults();
         }
 
         $data = [
-            'title'             => 'Dashboard',
-            'totalPosyandu'     => $totalPosyandu,
-            'totalBalita'       => $totalBalita,
-            'totalPengukuran'   => $totalPengukuranBulanIni,
-            'totalBerita'       => $totalBerita,
-            'totalPesanUnread'  => $totalPesanUnread,
-            'chartGiziLabels'   => json_encode($chartGiziLabels),
-            'chartGiziData'     => json_encode($chartGiziData),
-            'trendLabels'       => json_encode($trendLabels),
-            'trendData'         => json_encode($trendData)
+            'title'               => 'Dashboard',
+            'totalPosyandu'       => $totalPosyandu,
+            'totalBalita'         => $totalBalita,
+            'totalPengukuran'     => $totalPengukuranBulanIni,
+            'totalIbuHamil'       => $totalIbuHamil,
+            'totalRemaja'         => $totalRemaja,
+            'totalUsiaProduktif'  => $totalUsiaProduktif,
+            'totalLansia'         => $totalLansia,
+            'totalUser'           => $totalUser,
+            'totalBerita'         => $totalBerita,
+            'totalPesanUnread'    => $totalPesanUnread,
+            'chartGiziLabels'     => json_encode($chartGiziLabels),
+            'chartGiziData'       => json_encode($chartGiziData),
+            'trendLabels'         => json_encode($trendLabels),
+            'trendData'           => json_encode($trendData)
         ];
         
         return view('admin/dashboard', $data);

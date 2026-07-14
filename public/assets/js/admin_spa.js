@@ -87,147 +87,217 @@ $(document).ready(function () {
             const d = res.data || res;
             const stats = d.stats || {};
             const charts = d.charts || {};
-            const activities = d.recent_activities || [];
 
-            // Helper: create a summary card that navigates on click
-            const card = (label, count, trend, icon, bg, page) => `
-                <a href="#${page}" class="spa-nav-link" data-page="${page}" style="
-                    flex:1; min-width:200px; background:${bg}; border-radius:12px; padding:24px;
-                    color:#fff; position:relative; overflow:hidden; text-decoration:none;
-                    display:block; transition:transform .22s; cursor:pointer;
-                " onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='none'">
-                    <div style="position:absolute;right:-10px;bottom:-15px;font-size:90px;color:rgba(0,0,0,0.12);pointer-events:none;">
-                        <i class="${icon}"></i>
+            const s = (key) => stats[key] ? stats[key].total : 0;
+
+            // Helper: analytics stat card
+            const anCard = (label, value, icon, iconBg, iconColor, trendText, page) => `
+                <div class="an-card" style="cursor:pointer;" onclick="$('.spa-nav-link[data-page=\\'${page}\\']').click()">
+                    <div class="an-card-top">
+                        <span class="an-card-label">${label}</span>
+                        <span class="an-card-icon" style="background:${iconBg};color:${iconColor};">
+                            <i class="${icon}"></i>
+                        </span>
                     </div>
-                    <div style="position:relative;z-index:2;">
-                        <div style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px;">${label}</div>
-                        <div style="font-size:38px;font-weight:800;line-height:1;margin-bottom:8px;">${count}</div>
-                        <div style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:4px;">
-                            <i class="fas fa-chart-line"></i> ${trend}
-                        </div>
+                    <div class="an-card-value">${value}</div>
+                    <div class="an-card-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>${trendText}</span>
                     </div>
-                </a>
+                </div>
             `;
 
-            const trendText = (total) => total > 0 ? `+${total} dari bulan lalu` : '0 data – mulai tambahkan';
-
-            let html = `
-                <!-- ===== Data Kesehatan ===== -->
-                <div class="dash-section-title"><i class="fas fa-heartbeat"></i> Data Kesehatan</div>
-                <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
-                    ${card('DATA POSYANDU', stats.posyandu.total, trendText(stats.posyandu.total), 'fas fa-clinic-medical', '#1a56db', 'posyandu')}
-                    ${card('DATA BALITA', stats.balita.total, trendText(stats.balita.total), 'fas fa-child', '#10b981', 'balita')}
-                    ${card('DATA PENGUKURAN BALITA', stats.pengukuran.total, trendText(stats.pengukuran.total), 'fas fa-weight', '#f59e0b', 'pengukuran')}
-                    ${card('DATA IBU HAMIL', stats.ibu_hamil ? stats.ibu_hamil.total : 0, trendText(stats.ibu_hamil ? stats.ibu_hamil.total : 0), 'fas fa-female', '#d946ef', 'ibu_hamil')}
-                    ${card('DATA REMAJA', stats.remaja ? stats.remaja.total : 0, trendText(stats.remaja ? stats.remaja.total : 0), 'fas fa-user-graduate', '#8b5cf6', 'remaja')}
-                    ${card('DATA USIA PRODUKTIF', stats.usia_produktif ? stats.usia_produktif.total : 0, trendText(stats.usia_produktif ? stats.usia_produktif.total : 0), 'fas fa-briefcase', '#14b8a6', 'usia_produktif')}
-                    ${card('DATA LANSIA', stats.lansia.total, trendText(stats.lansia.total), 'fas fa-user-friends', '#ef4444', 'lansia')}
-                </div>
-
-
-
-                <!-- ===== Aktivitas & Laporan ===== -->
-                <div class="dash-section-title"><i class="fas fa-tasks"></i> Aktivitas & Laporan</div>
-                <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
-                    ${card('MANAJEMEN USER', stats.user ? stats.user.total : 0, trendText(stats.user ? stats.user.total : 0), 'fas fa-users', '#059669', 'user')}
-                    <a href="#laporan" class="spa-nav-link" data-page="laporan" style="
-                        flex:1; min-width:200px; background:#f59e0b; border-radius:12px; padding:24px;
-                        color:#fff; position:relative; overflow:hidden; text-decoration:none;
-                        display:block; transition:transform .22s; cursor:pointer;
-                    " onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='none'">
-                        <div style="position:absolute;right:-10px;bottom:-15px;font-size:90px;color:rgba(0,0,0,0.12);pointer-events:none;">
-                            <i class="fas fa-print"></i>
-                        </div>
-                        <div style="position:relative;z-index:2;">
-                            <div style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px;">CETAK LAPORAN</div>
-                            <div style="font-size:38px;font-weight:800;line-height:1;margin-bottom:8px;">–</div>
-                            <div style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:4px;">
-                                <i class="fas fa-chart-line"></i> Semua Data
+            // Helper: analytics stat card with mini donut
+            const anCardDonut = (label, value, icon, iconBg, iconColor, trendText, donutColor, donutPct, page) => `
+                <div class="an-card" style="cursor:pointer;" onclick="$('.spa-nav-link[data-page=\\'${page}\\']').click()">
+                    <div class="an-card-top">
+                        <span class="an-card-label">${label}</span>
+                        <span class="an-card-icon" style="background:${iconBg};color:${iconColor};">
+                            <i class="${icon}"></i>
+                        </span>
+                    </div>
+                    <div class="an-card-body-row">
+                        <div>
+                            <div class="an-card-value">${value}</div>
+                            <div class="an-card-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>${trendText}</span>
                             </div>
                         </div>
-                    </a>
-                </div>
-
-                <!-- ===== Charts ===== -->
-                <div class="charts-grid">
-                    <div class="chart-box">
-                        <div class="chart-title">Proporsi Status Gizi Balita</div>
-                        <div class="chart-container" id="giziContainer">
-                            <canvas id="giziChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-box">
-                        <div class="chart-title">Tren Pengukuran (6 Bulan)</div>
-                        <div class="chart-container" id="trenContainer">
-                            <canvas id="trenChart"></canvas>
-                        </div>
+                        <div class="an-mini-donut" style="--donut-color:${donutColor};--donut-pct:${donutPct};"></div>
                     </div>
                 </div>
+            `;
 
-                <div class="activity-feed">
-                    <h3><i class="fas fa-history"></i> Aktivitas Terbaru</h3>
-                    <div id="activityList">
-                        <!-- Activities -->
+            const summaryRow = (label, count, dotColor) => `
+                <tr>
+                    <td><div class="an-row-info"><span class="an-row-dot" style="background:${dotColor};"></span>${label}</div></td>
+                    <td><strong>${count}</strong></td>
+                    <td><span class="an-status-badge active">Terdaftar</span></td>
+                </tr>
+            `;
+
+            let html = `
+                <!-- Row 1: 4 main stat cards -->
+                <div class="an-grid-row an-grid-4" style="margin-top:16px;">
+                    ${anCard('Total Posyandu Aktif', s('posyandu'), 'fas fa-clinic-medical', '#EBF5FF', '#1a56db', 'Data aktif saat ini', 'posyandu')}
+                    ${anCard('Total Data Balita', s('balita'), 'fas fa-child', '#ECFDF5', '#059669', 'Terdaftar dalam sistem', 'balita')}
+                    ${anCard('Total Ibu Hamil', s('ibu_hamil'), 'fas fa-female', '#FDF2F8', '#db2777', 'Terdaftar dalam sistem', 'ibu_hamil')}
+                    ${anCard('Pengukuran Bulan Ini', s('pengukuran'), 'fas fa-weight', '#FFF7ED', '#ea580c', 'Bulan ini', 'pengukuran')}
+                </div>
+
+                <!-- Row 2: 4 cards with donut -->
+                <div class="an-grid-row an-grid-4">
+                    ${anCardDonut('Total Remaja', s('remaja'), 'fas fa-user-graduate', '#F5F3FF', '#7c3aed', 'Data terdaftar', '#7c3aed', 75, 'remaja')}
+                    ${anCardDonut('Total Lansia', s('lansia'), 'fas fa-user-friends', '#FEF2F2', '#dc2626', 'Data terdaftar', '#dc2626', 60, 'lansia')}
+                    ${anCardDonut('Total Usia Produktif', s('usia_produktif'), 'fas fa-briefcase', '#F0FDFA', '#0d9488', 'Data terdaftar', '#0d9488', 50, 'usia_produktif')}
+                    ${anCardDonut('Manajemen User', s('user'), 'fas fa-users', '#EFF6FF', '#2563eb', 'User terdaftar', '#2563eb', 85, 'user')}
+                </div>
+
+                <!-- Row 3: Bar chart + mini summary cards -->
+                <div class="an-grid-row an-grid-bar">
+                    <div class="an-chart-card">
+                        <div class="an-chart-header">
+                            <h3>Tren Pengukuran</h3>
+                            <span class="an-chart-badge">${new Date().getFullYear()} <i class="fas fa-chevron-down" style="font-size:9px;margin-left:4px;"></i></span>
+                        </div>
+                        <div class="an-chart-body">
+                            <div style="position:relative;height:280px;" id="trenBarContainer">
+                                <canvas id="trenBarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="an-mini-summary-card" style="flex:1;">
+                            <div class="an-mini-summary-left">
+                                <div class="an-mini-summary-avatars">
+                                    <span class="av" style="background:#3b82f6;"><i class="fas fa-newspaper" style="color:#fff;font-size:12px;"></i></span>
+                                    <span class="av" style="background:#10b981;"><i class="fas fa-image" style="color:#fff;font-size:12px;"></i></span>
+                                </div>
+                                <div>
+                                    <div class="an-mini-summary-value">${stats.berita ? stats.berita.total : 0}</div>
+                                    <div class="an-mini-summary-label">Total Berita Dipublikasi</div>
+                                </div>
+                            </div>
+                            <span class="an-mini-summary-badge up"><i class="fas fa-arrow-up"></i> Aktif</span>
+                        </div>
+                        <div class="an-mini-summary-card" style="flex:1;cursor:pointer;" onclick="$('.spa-nav-link[data-page=\\'laporan\\']').click()">
+                            <div class="an-mini-summary-left">
+                                <div class="an-mini-summary-avatars">
+                                    <span class="av" style="background:#8b5cf6;"><i class="fas fa-print" style="color:#fff;font-size:12px;"></i></span>
+                                    <span class="av" style="background:#ec4899;"><i class="fas fa-file-pdf" style="color:#fff;font-size:12px;"></i></span>
+                                </div>
+                                <div>
+                                    <div class="an-mini-summary-value">Cetak Laporan</div>
+                                    <div class="an-mini-summary-label">Unduh data kesehatan</div>
+                                </div>
+                            </div>
+                            <span class="an-mini-summary-badge neutral"><i class="fas fa-external-link-alt"></i> Buka</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Doughnut + Summary Table -->
+                <div class="an-grid-row an-grid-doughnut">
+                    <div class="an-chart-card">
+                        <div class="an-chart-header">
+                            <h3>Status Gizi Balita</h3>
+                            <span class="an-chart-badge">${new Date().getFullYear()}</span>
+                        </div>
+                        <div class="an-chart-body" style="display:flex;align-items:center;justify-content:center;">
+                            <div style="position:relative;height:280px;width:100%;" id="giziDoughnutContainer">
+                                <canvas id="giziDoughnutChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="an-chart-card">
+                        <div class="an-chart-header">
+                            <h3>Ringkasan Data</h3>
+                            <span class="an-chart-badge"><i class="fas fa-sync-alt"></i></span>
+                        </div>
+                        <div class="an-table-body">
+                            <table class="an-summary-table">
+                                <thead><tr><th>Kategori</th><th>Jumlah</th><th>Status</th></tr></thead>
+                                <tbody>
+                                    ${summaryRow('Posyandu Aktif', s('posyandu'), '#1a56db')}
+                                    ${summaryRow('Data Balita', s('balita'), '#059669')}
+                                    ${summaryRow('Data Ibu Hamil', s('ibu_hamil'), '#db2777')}
+                                    ${summaryRow('Data Remaja', s('remaja'), '#7c3aed')}
+                                    ${summaryRow('Data Usia Produktif', s('usia_produktif'), '#0d9488')}
+                                    ${summaryRow('Data Lansia', s('lansia'), '#dc2626')}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             `;
 
             $('#spaContent').html(html);
 
-            // Init Charts
+            // ---- Bar Chart: Tren Pengukuran ----
+            const sumTren = charts.trend.data.reduce((a, b) => a + Number(b), 0);
+            if (sumTren > 0) {
+                new Chart(document.getElementById('trenBarChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: charts.trend.labels,
+                        datasets: [{
+                            label: 'Pengukuran',
+                            data: charts.trend.data,
+                            backgroundColor: 'rgba(59,130,246,0.85)',
+                            borderRadius: 6,
+                            borderSkipped: false,
+                            barPercentage: 0.55,
+                            hoverBackgroundColor: '#2563eb'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9CA3AF' } },
+                            y: { beginAtZero: true, grid: { color: '#F3F4F6', drawBorder: false }, ticks: { stepSize: 1, font: { size: 11 }, color: '#9CA3AF' } }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { backgroundColor: '#1F2937', cornerRadius: 8, padding: 12 }
+                        }
+                    }
+                });
+            } else {
+                $('#trenBarContainer').html('<div class="empty-state" style="height:280px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chart-bar" style="font-size:32px;color:#cbd5e1;margin-right:10px;"></i><span style="color:#94a3b8;">Belum ada data tren pengukuran</span></div>');
+            }
+
+            // ---- Doughnut Chart: Status Gizi ----
             const sumGizi = charts.gizi.data.reduce((a, b) => a + Number(b), 0);
             if (sumGizi > 0) {
-                new Chart(document.getElementById('giziChart'), {
+                new Chart(document.getElementById('giziDoughnutChart'), {
                     type: 'doughnut',
                     data: {
                         labels: charts.gizi.labels,
                         datasets: [{
                             data: charts.gizi.data,
-                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#7f1d1d'],
-                            borderWidth: 0
+                            backgroundColor: ['#10B981', '#F59E0B', '#EF4444', '#7F1D1D'],
+                            borderColor: '#fff',
+                            borderWidth: 3,
+                            hoverOffset: 6
                         }]
                     },
-                    options: { maintainAspectRatio: false }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 16, boxWidth: 12, boxHeight: 12, borderRadius: 4, useBorderRadius: true, font: { size: 12, weight: '500' }, color: '#6B7280' }
+                            },
+                            tooltip: { backgroundColor: '#1F2937', cornerRadius: 8, padding: 12 }
+                        }
+                    }
                 });
             } else {
-                $('#giziContainer').html('<div class="empty-state"><i class="fas fa-chart-pie"></i><span>Belum ada data pengukuran bulan ini</span></div>');
-            }
-
-            const sumTren = charts.trend.data.reduce((a, b) => a + Number(b), 0);
-            if (sumTren > 0) {
-                new Chart(document.getElementById('trenChart'), {
-                    type: 'line',
-                    data: {
-                        labels: charts.trend.labels,
-                        datasets: [{
-                            label: 'Jumlah Pengukuran',
-                            data: charts.trend.data,
-                            borderColor: '#3b82f6',
-                            tension: 0.3,
-                            fill: true,
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)'
-                        }]
-                    },
-                    options: { maintainAspectRatio: false }
-                });
-            } else {
-                $('#trenContainer').html('<div class="empty-state"><i class="fas fa-chart-line"></i><span>Belum ada data tren pengukuran</span></div>');
-            }
-
-            // Init Activities
-            if (activities.length > 0) {
-                let actHtml = '';
-                activities.forEach(act => {
-                    actHtml += `
-                        <div class="activity-item">
-                            <div class="activity-icon"><i class="fas fa-bell"></i></div>
-                            <div class="activity-text">${act.text}</div>
-                        </div>
-                    `;
-                });
-                $('#activityList').html(actHtml);
-            } else {
-                $('#activityList').html('<div class="empty-state" style="padding:20px 0;"><i class="fas fa-inbox"></i><span>Belum ada aktivitas terbaru</span></div>');
+                $('#giziDoughnutContainer').html('<div class="empty-state" style="height:280px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chart-pie" style="font-size:32px;color:#cbd5e1;margin-right:10px;"></i><span style="color:#94a3b8;">Belum ada data status gizi</span></div>');
             }
 
         }).fail(function (xhr) {

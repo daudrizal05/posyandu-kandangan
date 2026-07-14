@@ -316,6 +316,269 @@
       border: none !important;
       font-size: 13.5px !important;
     }
+
+    /* ============================================================
+       ANALYTICS DASHBOARD — NEW DESIGN
+    ============================================================ */
+
+    /* -- Stat Cards -- */
+    .an-card {
+      background: #ffffff;
+      border: 1px solid #E8ECF1;
+      border-radius: 14px;
+      padding: 22px 24px;
+      transition: box-shadow 0.22s, transform 0.22s;
+    }
+    .an-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+    .an-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .an-card-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #8B95A5;
+      letter-spacing: 0.2px;
+    }
+    .an-card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .an-card-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1A1D23;
+      line-height: 1;
+      margin-bottom: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    .an-card-trend {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .an-card-trend.up {
+      color: #059669;
+    }
+    .an-card-trend.down {
+      color: #dc2626;
+    }
+    .an-card-trend.neutral {
+      color: #8B95A5;
+    }
+    .an-card-trend i {
+      font-size: 10px;
+    }
+
+    /* -- Card with row body (value + donut) -- */
+    .an-card-body-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    /* -- Mini Donut (CSS only) -- */
+    .an-mini-donut {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--donut-color) calc(var(--donut-pct) * 1%),
+        #E8ECF1 calc(var(--donut-pct) * 1%)
+      );
+      position: relative;
+      flex-shrink: 0;
+    }
+    .an-mini-donut::after {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    /* -- Chart Cards -- */
+    .an-chart-card {
+      background: #ffffff;
+      border: 1px solid #E8ECF1;
+      border-radius: 14px;
+      overflow: hidden;
+      height: 100%;
+    }
+    .an-chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .an-chart-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1D23;
+      margin: 0;
+    }
+    .an-chart-badge {
+      font-size: 12px;
+      font-weight: 500;
+      color: #8B95A5;
+      background: #F8F9FB;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid #E8ECF1;
+      cursor: pointer;
+    }
+    .an-chart-body {
+      padding: 20px 24px 24px;
+    }
+
+    /* -- Mini Summary Cards (Paid Invoices style) -- */
+    .an-mini-summary-card {
+      background: #ffffff;
+      border: 1px solid #E8ECF1;
+      border-radius: 14px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: calc(50% - 8px);
+      min-height: 110px;
+      transition: box-shadow 0.22s;
+    }
+    .an-mini-summary-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+    .an-mini-summary-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .an-mini-summary-avatars {
+      display: flex;
+      align-items: center;
+    }
+    .an-mini-summary-avatars .av {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+    }
+    .an-mini-summary-avatars .av + .av {
+      margin-left: -8px;
+    }
+    .an-mini-summary-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1A1D23;
+      line-height: 1.2;
+    }
+    .an-mini-summary-label {
+      font-size: 12px;
+      color: #8B95A5;
+      font-weight: 500;
+    }
+    .an-mini-summary-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .an-mini-summary-badge.up {
+      background: #ECFDF5;
+      color: #059669;
+    }
+    .an-mini-summary-badge.neutral {
+      background: #EFF6FF;
+      color: #2563eb;
+    }
+
+    /* -- Summary Table -- */
+    .an-table-body {
+      padding: 0;
+    }
+    .an-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .an-summary-table th {
+      background: #F8F9FB;
+      padding: 12px 24px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #8B95A5;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+      border-bottom: 1px solid #E8ECF1;
+    }
+    .an-summary-table td {
+      padding: 14px 24px;
+      font-size: 13.5px;
+      color: #1A1D23;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .an-summary-table tr:last-child td {
+      border-bottom: none;
+    }
+    .an-summary-table tr:hover td {
+      background: #FAFBFC;
+    }
+    .an-row-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    .an-row-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .an-status-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .an-status-badge.active {
+      background: #ECFDF5;
+      color: #059669;
+    }
+    .an-status-badge.warning {
+      background: #FFF7ED;
+      color: #ea580c;
+    }
+    .an-status-badge.danger {
+      background: #FEF2F2;
+      color: #dc2626;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .an-card-value { font-size: 26px; }
+      .an-mini-summary-value { font-size: 18px; }
+    }
   </style>
 </head>
 
