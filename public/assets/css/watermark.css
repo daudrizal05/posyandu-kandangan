@@ -1,0 +1,32 @@
+.watermark-bg {
+    position: relative;
+}
+.watermark-bg::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    background-image: url('../img/logo-siposka.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.06;         /* watermark sangat transparan agar tidak mengganggu */
+    pointer-events: none;  /* agar tidak menghalangi klik pada konten di atasnya */
+    z-index: 0;
+}
+.watermark-bg > * {
+    position: relative;
+    z-index: 1;            /* pastikan konten asli tetap di atas watermark */
+}
+
+/* Responsif untuk watermark */
+@media (max-width: 768px) {
+    .watermark-bg::before {
+        width: 160px;
+        height: 160px;
+        opacity: 0.08; /* sedikit dinaikkan di mobile agar tetap terlihat */
+    }
+}

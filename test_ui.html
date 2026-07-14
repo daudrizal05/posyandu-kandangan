@@ -1,0 +1,236 @@
+<style>
+/* Reset for SPA to prevent inheriting unwanted global styles */
+#adminSpaOverlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #f8fafc; z-index: 1040;
+    display: none; flex-direction: row; font-family: 'Poppins', sans-serif;
+    color: #1e293b; overflow: hidden;
+}
+#adminSpaOverlay.active { display: flex; }
+
+/* Sidebar */
+.spa-sidebar {
+    width: 260px; background: #ffffff; color: #1e293b;
+    display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
+    border-right: 1px solid #e2e8f0;
+}
+.spa-brand {
+    padding: 20px; font-size: 18px; font-weight: 700; border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; justify-content: center; color: #1a56db;
+}
+.spa-brand img {
+    width: 100%; max-width: 140px; height: auto;
+}
+.spa-menu { list-style: none; padding: 10px 0; margin: 0; }
+.spa-menu li { padding: 4px 16px; }
+.spa-menu a {
+    display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+    color: #64748b; text-decoration: none; border-radius: 8px; font-size: 14px;
+    transition: all 0.2s; font-weight: 500;
+}
+.spa-menu a:hover, .spa-menu a.active {
+    background: #eff4ff; color: #1a56db; font-weight: 600;
+}
+.spa-menu i { width: 20px; text-align: center; }
+
+/* Sidebar Toggle State */
+.spa-sidebar { transition: margin-left 0.3s; }
+.spa-sidebar.collapsed { margin-left: -260px; }
+.btn-hamburger { background: none; border: none; font-size: 20px; color: #1e293b; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; transition: background 0.2s; }
+.btn-hamburger:hover { background: #e2e8f0; }
+/* Main Area */
+.spa-main {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #f1f5fb;
+}
+.spa-header {
+    height: 64px; background: #fff; border-bottom: 1px solid #e2e8f0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; flex-shrink: 0;
+}
+.spa-header-left { display: flex; align-items: center; gap: 16px; }
+.spa-header h2 { font-size: 18px; font-weight: 600; margin: 0; }
+.btn-close-spa {
+    background: #ef4444; color: #fff; border: none; padding: 8px 16px;
+    border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;
+}
+.btn-close-spa:hover { background: #dc2626; }
+
+/* Content Area */
+.spa-content {
+    flex: 1; padding: 24px; overflow-y: auto;
+}
+
+/* Modals */
+.spa-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1050;
+    display: none; align-items: center; justify-content: center;
+}
+.spa-modal.active { display: flex; }
+.spa-modal-content {
+    background: #fff; width: 500px; max-width: 90%; border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+    max-height: 90vh;
+}
+.spa-modal-header {
+    padding: 16px 24px; border-bottom: 1px solid #e2e8f0;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.spa-modal-header h3 { margin: 0; font-size: 18px; }
+.spa-modal-close {
+    background: none; border: none; font-size: 20px; cursor: pointer; color: #64748b;
+}
+.spa-modal-body { padding: 24px; overflow-y: auto; }
+.spa-modal-footer {
+    padding: 16px 24px; border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: flex-end; gap: 12px;
+}
+
+/* Forms & Tables */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+.form-control {
+    width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1;
+    border-radius: 6px; font-family: inherit; font-size: 14px; outline: none;
+}
+.form-control:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
+.btn-primary-spa {
+    background: #3b82f6; color: #fff; border: none; padding: 10px 20px;
+    border-radius: 6px; cursor: pointer; font-weight: 500;
+}
+.btn-primary-spa:hover { background: #2563eb; }
+.btn-secondary-spa {
+    background: #e2e8f0; color: #1e293b; border: none; padding: 10px 20px;
+    border-radius: 6px; cursor: pointer; font-weight: 500;
+}
+.btn-secondary-spa:hover { background: #cbd5e1; }
+
+.table-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+.table-header { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+
+table.dataTable { width: 100% !important; border-collapse: collapse !important; }
+table.dataTable th, table.dataTable td { padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+table.dataTable th { background: #f8fafc; font-weight: 600; color: #475569; }
+
+/* Dashboard Redesign */
+.dash-section-title { font-size: 16px; font-weight: 600; color: #475569; margin: 24px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+.stats-grid-group { display: grid; gap: 16px; margin-bottom: 24px; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 1024px) {
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+.stat-card-admin {
+    padding: 24px; position: relative; overflow: hidden;
+    transition: transform .22s; color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.stat-card-admin:hover { transform: translateY(-3px); }
+.stat-card-admin.c1 { background: #1a56db; }
+.stat-card-admin.c2 { background: #1e90ff; }
+.stat-card-admin.c3 { background: #1344b0; }
+.stat-card-admin.c4 { background: #0e337a; }
+
+.stat-card-admin .stat-bg-icon {
+    position: absolute; right: -20px; bottom: -20px;
+    font-size: 110px; color: rgba(255,255,255,0.15); pointer-events: none; z-index: 0;
+}
+.stat-card-admin > div { position: relative; z-index: 1; }
+
+.stat-card-admin .stat-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: rgba(255,255,255,.85); margin-bottom: 12px;
+}
+.stat-card-admin .stat-value { font-size: 38px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 8px; }
+.stat-card-admin .stat-trend { font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,.9); display: flex; align-items: center; gap: 4px; }
+
+/* Action Card / Laporan */
+.action-card {
+    background: #fff; border: 2px dashed #cbd5e1; color: #1e293b;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px; border-radius: 12px; text-decoration: none; transition: all 0.2s;
+    cursor: pointer; gap: 12px; height: 100%; box-sizing: border-box;
+}
+.action-card:hover { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; transform: translateY(-3px); }
+.action-card i { font-size: 32px; color: #3b82f6; }
+.action-card span { font-weight: 600; font-size: 16px; }
+
+/* Chart Containers */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+@media (max-width: 1024px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-box { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+.chart-title { font-size: 15px; font-weight: 600; color: #334155; margin-bottom: 16px; text-align: center; }
+.chart-container { position: relative; height: 300px; width: 100%; display: flex; align-items: center; justify-content: center; }
+.empty-state { text-align: center; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.empty-state i { font-size: 32px; color: #cbd5e1; }
+
+/* Activity Feed */
+.activity-feed { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+.activity-feed h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;}
+.activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+.activity-item:last-child { border-bottom: none; }
+.activity-icon { width: 32px; height: 32px; border-radius: 50%; background: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;}
+.activity-text { font-size: 14px; color: #475569; }
+
+</style>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div id="adminSpaOverlay">
+    <!-- Sidebar -->
+    <div class="spa-sidebar">
+        <div class="spa-brand">
+            <img src="<?= base_url('assets/img/logo-siposka-new.jpg') ?>" alt="SIPOSKA Admin">
+        </div>
+        <ul class="spa-menu">
+            <li><a href="#dashboard" class="spa-nav-link" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#posyandu" class="spa-nav-link" data-page="posyandu"><i class="fas fa-hospital"></i> Manajemen Posyandu</a></li>
+            <li><a href="#balita" class="spa-nav-link" data-page="balita"><i class="fas fa-child"></i> Data Balita</a></li>
+            <li><a href="#pengukuran" class="spa-nav-link" data-page="pengukuran"><i class="fas fa-weight"></i> Data Ibu Hamil</a></li>
+            <li><a href="#ibu_hamil" class="spa-nav-link" data-page="ibu_hamil"><i class="fas fa-female"></i> Data Lansia</a></li>
+            <li><a href="#berita" class="spa-nav-link" data-page="berita"><i class="fas fa-newspaper"></i> Berita</a></li>
+            <li><a href="#galeri" class="spa-nav-link" data-page="galeri"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="#download" class="spa-nav-link" data-page="download"><i class="fas fa-file-pdf"></i> Dokumen Unduhan</a></li>
+            <li><a href="#pesan" class="spa-nav-link" data-page="pesan"><i class="fas fa-envelope"></i> Pesan Masuk</a></li>
+            <li><a href="#laporan" class="spa-nav-link" data-page="laporan"><i class="fas fa-print"></i> Cetak Laporan</a></li>
+            <li><a href="#user" class="spa-nav-link" data-page="user"><i class="fas fa-users"></i> Manajemen User</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="spa-main">
+        <div class="spa-header">
+            <div class="spa-header-left">
+                <button class="btn-hamburger" id="btnToggleSidebar"><i class="fas fa-bars"></i></button>
+                <h2 id="spaPageTitle">Dashboard</h2>
+            </div>
+            <button class="btn-close-spa" id="btnCloseAdminSPA2"><i class="fas fa-times"></i> Keluar Panel Admin</button>
+        </div>
+        <div class="spa-content" id="spaContent">
+            <!-- Dynamic Content Renders Here -->
+        </div>
+    </div>
+</div>
+
+<!-- Global Modal Container for forms -->
+<div class="spa-modal" id="spaModal">
+    <div class="spa-modal-content" id="spaModalContent">
+        <!-- Injected via JS -->
+    </div>
+</div>
+
+<script>
+    const API_BASE_URL = '<?= site_url('api/admin/') ?>';
+    const CSRF_TOKEN = '<?= csrf_hash() ?>'; // Might need updating if token mismatch
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="<?= base_url('assets/js/admin_spa.js?v=' . time()) ?>"></script>
+
+
