@@ -376,6 +376,7 @@ $(document).ready(function () {
         const posyanduColIdx = config.columns.findIndex(c => c.data === 'nama_posyandu');
 
         const dt = $(`#${tableId}`).DataTable({
+            order: [],
             ajax: {
                 url: API_BASE_URL + config.endpoint,
                 dataSrc: 'data',

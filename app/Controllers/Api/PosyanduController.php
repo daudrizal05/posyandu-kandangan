@@ -16,7 +16,7 @@ class PosyanduController extends BaseController
 
     public function index()
     {
-        $data = $this->posyanduModel->findAll();
+        $data = $this->posyanduModel->orderBy('id', 'ASC')->findAll();
         $db = \Config\Database::connect();
 
         // Attach summary counts for each posyandu
